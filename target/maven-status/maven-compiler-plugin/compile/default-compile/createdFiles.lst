@@ -1,0 +1,11 @@
+io\pivotal\gemfire\domain\BeaconResponse.class
+io\pivotal\gemfire\domain\CustomerPromotions.class
+io\pivotal\gemfire\domain\Address.class
+io\pivotal\gemfire\domain\CustomerCategory.class
+io\pivotal\gemfire\domain\Category.class
+io\pivotal\gemfire\domain\Customer.class
+io\pivotal\gemfire\domain\Beacon.class
+io\pivotal\gemfire\domain\Store.class
+io\pivotal\gemfire\domain\Promotion.class
+io\pivotal\gemfire\domain\BeaconRequest.class
+io\pivotal\gemfire\domain\Product.class
