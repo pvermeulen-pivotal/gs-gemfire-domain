@@ -1,31 +1,33 @@
 package io.pivotal.gemfire.domain;
 
 import java.beans.Transient;
-import java.util.List;
 
-public class Category {
+import org.apache.geode.pdx.PdxReader;
+import org.apache.geode.pdx.PdxSerializable;
+import org.apache.geode.pdx.PdxWriter;
 
-	private String categoryId;
+public class Category implements PdxSerializable {
+
+	private int categoryId;
 	private String categoryName;
-	private String subCategoryId;
-	private List<String> productIds;
+	private int subCategoryId;
+	private String subCategoryName;
 
 	public Category() {
 	}
 
-	public Category(String categoryId, String categoryName, String subCategoryId, List<String> productIds) {
-		super();
+	public Category(int categoryId, String categoryName, int subCategoryId, String subCategoryName) {
 		this.categoryId = categoryId;
 		this.categoryName = categoryName;
 		this.subCategoryId = subCategoryId;
-		this.productIds = productIds;
+		this.subCategoryName = subCategoryName;
 	}
 
-	public String getCategoryId() {
+	public int getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(String categoryId) {
+	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
 
@@ -37,24 +39,24 @@ public class Category {
 		this.categoryName = categoryName;
 	}
 
-	public String getSubCategoryId() {
+	public int getSubCategoryId() {
 		return subCategoryId;
 	}
 
-	public void setSubCategoryId(String subCategoryId) {
+	public void setSubCategoryId(int subCategoryId) {
 		this.subCategoryId = subCategoryId;
 	}
 
-	public List<String> getProductIds() {
-		return productIds;
+	public String getSubCategoryName() {
+		return subCategoryName;
 	}
 
-	public void setProductIds(List<String> productIds) {
-		this.productIds = productIds;
+	public void setSubCategoryName(String subCategoryName) {
+		this.subCategoryName = subCategoryName;
 	}
 
 	@Transient
-	public String getKey() {
+	public int getKey() {
 		return this.categoryId;
 	}
 
@@ -62,10 +64,10 @@ public class Category {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((categoryId == null) ? 0 : categoryId.hashCode());
+		result = prime * result + categoryId;
 		result = prime * result + ((categoryName == null) ? 0 : categoryName.hashCode());
-		result = prime * result + ((productIds == null) ? 0 : productIds.hashCode());
-		result = prime * result + ((subCategoryId == null) ? 0 : subCategoryId.hashCode());
+		result = prime * result + subCategoryId;
+		result = prime * result + ((subCategoryName == null) ? 0 : subCategoryName.hashCode());
 		return result;
 	}
 
@@ -78,25 +80,19 @@ public class Category {
 		if (getClass() != obj.getClass())
 			return false;
 		Category other = (Category) obj;
-		if (categoryId == null) {
-			if (other.categoryId != null)
-				return false;
-		} else if (!categoryId.equals(other.categoryId))
+		if (categoryId != other.categoryId)
 			return false;
 		if (categoryName == null) {
 			if (other.categoryName != null)
 				return false;
 		} else if (!categoryName.equals(other.categoryName))
 			return false;
-		if (productIds == null) {
-			if (other.productIds != null)
-				return false;
-		} else if (!productIds.equals(other.productIds))
+		if (subCategoryId != other.subCategoryId)
 			return false;
-		if (subCategoryId == null) {
-			if (other.subCategoryId != null)
+		if (subCategoryName == null) {
+			if (other.subCategoryName != null)
 				return false;
-		} else if (!subCategoryId.equals(other.subCategoryId))
+		} else if (!subCategoryName.equals(other.subCategoryName))
 			return false;
 		return true;
 	}
@@ -104,7 +100,21 @@ public class Category {
 	@Override
 	public String toString() {
 		return "Category [categoryId=" + categoryId + ", categoryName=" + categoryName + ", subCategoryId="
-				+ subCategoryId + ", productIds=" + productIds + "]";
+				+ subCategoryId + ", subCategoryName=" + subCategoryName + "]";
+	}
+
+	public void toData(PdxWriter writer) {
+		writer.writeInt("categoryId", this.categoryId);
+		writer.writeString("categoryName", this.categoryName);
+		writer.writeInt("subCategoryId", this.subCategoryId);
+		writer.writeString("subCategoryName", this.subCategoryName);
+	}
+
+	public void fromData(PdxReader reader) {
+		reader.readInt("categoryId");
+		reader.readString("categoryName");
+		reader.readInt("subCategoryId");
+		reader.readString("subCategoryName");
 	}
 
 }

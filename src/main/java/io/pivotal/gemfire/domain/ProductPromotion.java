@@ -7,23 +7,37 @@ import org.apache.geode.pdx.PdxReader;
 import org.apache.geode.pdx.PdxSerializable;
 import org.apache.geode.pdx.PdxWriter;
 
-public class Promotion implements PdxSerializable {
+public class ProductPromotion implements PdxSerializable {
 
+	private long productId;
+	private int categoryId;
+	private int subCategoryId;
 	private int promotionId;
 	private Date startDate;
 	private Date endDate;
-	private String message;
-	private String url;
 
-	public Promotion() {
+	public long getProductId() {
+		return productId;
 	}
 
-	public Promotion(int promotionId, Date startDate, Date endDate, String message, String url) {
-		this.promotionId = promotionId;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.message = message;
-		this.url = url;
+	public void setProductId(long productId) {
+		this.productId = productId;
+	}
+
+	public int getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public int getSubCategoryId() {
+		return subCategoryId;
+	}
+
+	public void setSubCategoryId(int subCategoryId) {
+		this.subCategoryId = subCategoryId;
 	}
 
 	public int getPromotionId() {
@@ -50,36 +64,21 @@ public class Promotion implements PdxSerializable {
 		this.endDate = endDate;
 	}
 
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
 	@Transient
-	public int getKey() {
-		return this.promotionId;
+	public long getKey() {
+		return this.productId;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + categoryId;
 		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+		result = prime * result + (int) (productId ^ (productId >>> 32));
 		result = prime * result + promotionId;
-		result = prime * result + ((message == null) ? 0 : message.hashCode());
 		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
-		result = prime * result + ((url == null) ? 0 : url.hashCode());
+		result = prime * result + subCategoryId;
 		return result;
 	}
 
@@ -91,52 +90,51 @@ public class Promotion implements PdxSerializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Promotion other = (Promotion) obj;
+		ProductPromotion other = (ProductPromotion) obj;
+		if (categoryId != other.categoryId)
+			return false;
 		if (endDate == null) {
 			if (other.endDate != null)
 				return false;
 		} else if (!endDate.equals(other.endDate))
 			return false;
-		if (promotionId != other.promotionId)
+		if (productId != other.productId)
 			return false;
-		if (message == null) {
-			if (other.message != null)
-				return false;
-		} else if (!message.equals(other.message))
+		if (promotionId != other.promotionId)
 			return false;
 		if (startDate == null) {
 			if (other.startDate != null)
 				return false;
 		} else if (!startDate.equals(other.startDate))
 			return false;
-		if (url == null) {
-			if (other.url != null)
-				return false;
-		} else if (!url.equals(other.url))
+		if (subCategoryId != other.subCategoryId)
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Promotion [id=" + promotionId + ", startDat=" + startDate + ", endDate=" + endDate + ", message="
-				+ message + ", url=" + url + "]";
+		return "ProductPromotion [productId=" + productId + ", categoryId=" + categoryId + ", subCategoryId="
+				+ subCategoryId + ", promotionId=" + promotionId + ", startDate=" + startDate + ", endDate=" + endDate
+				+ "]";
 	}
 
 	public void toData(PdxWriter writer) {
+		writer.writeLong("productId", this.productId);
+		writer.writeInt("cateogyId", this.categoryId);
+		writer.writeInt("subCategoryId", this.subCategoryId);
 		writer.writeInt("promotionId", this.promotionId);
-		writer.writeDate("startDat", this.startDate);
-		writer.writeDate("endDate;", this.endDate);
-		writer.writeString("message", this.message);
-		writer.writeString("url", this.url);
+		writer.writeDate("startDate", this.startDate);
+		writer.writeDate("endDate", this.endDate);
 	}
 
 	public void fromData(PdxReader reader) {
+		reader.readLong("productId");
+		reader.readInt("cateogyId");
+		reader.readInt("subCategoryId");
 		reader.readInt("promotionId");
 		reader.readDate("startDate");
-		reader.readDate("endDate;");
-		reader.readString("message");
-		reader.readString("url");
+		reader.readDate("endDate");
 	}
 
 }
